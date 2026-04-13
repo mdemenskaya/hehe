@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свидание</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff5f8;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #d63384;
+            margin-bottom: 50px;
+            user-select: none;
+            text-align: center;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 320px; 
+            height: 80px;
+            position: relative;
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px; /* Сделаем их более округлыми и симпатичными */
+            z-index: 10;
+            white-space: nowrap;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            position: absolute;
+            left: 10px;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #949ba2;
+            color: white;
+            position: absolute;
+            right: 10px;
+            transition: left 0.2s ease-out, top 0.2s ease-out; /* Плавный и быстрый уход */
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пойдешь со мной на свидание?</h1>
+
+    <div class="buttons-container">
+        <button id="yesBtn">Да</button>
+        <button id="noBtn">Нет</button>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        noBtn.addEventListener('mouseover', () => {
+            const offset = 160; 
+            const rect = noBtn.getBoundingClientRect();
+            
+            // Фиксируем размеры, чтобы кнопка не расползалась
+            if (noBtn.style.position !== 'fixed') {
+                noBtn.style.width = rect.width + 'px';
+                noBtn.style.height = rect.height + 'px';
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${rect.left}px`;
+                noBtn.style.top = `${rect.top}px`;
+                noBtn.style.margin = '0';
+            }
+
+            // Генерируем новые координаты
+            let newLeft = rect.left + (Math.random() > 0.5 ? offset : -offset);
+            let newTop = rect.top + (Math.random() > 0.5 ? offset : -offset);
+
+            // Границы экрана с запасом
+            const padding = 50;
+            if (newLeft < padding) newLeft = padding;
+            if (newLeft > window.innerWidth - rect.width - padding) {
+                newLeft = window.innerWidth - rect.width - padding;
+            }
+            if (newTop < padding) newTop = padding;
+            if (newTop > window.innerHeight - rect.height - padding) {
+                newTop = window.innerHeight - rect.height - padding;
+            }
+
+            noBtn.style.left = `${newLeft}px`;
+            noBtn.style.top = `${newTop}px`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.body.innerHTML = `
+                <div style="text-align: center; animation: fadeIn 0.8s ease-in;">
+                    <h1 style="font-size: 3rem;">Ура! ❤️</h1>
+                    <p style="font-size: 1.5rem; color: #d63384;">Это будет лучший день!</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
